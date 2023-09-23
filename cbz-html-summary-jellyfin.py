@@ -20,6 +20,19 @@ for r, d, f in os.walk(script_dir):
             # Open the .cbz file using zipfile module
             with zipfile.ZipFile(cbz_path, "r") as cbz_file:
 
+                # Find the first .jpg or .png file in the archive and extract it to the root path
+                for scan_name in cbz_file.namelist():
+                    if scan_name.endswith(".jpg") or scan_name.endswith(".png"):
+
+                        # get the folder name and path from the extracted file                        
+                        cbz_file.extract(scan_name, r)
+
+                        #  rename the file extracted like the zip file and add -poster to the end of the filename
+                        os.rename(scan_name, os.path.splitext(file)[0] + "-poster" + os.path.splitext(scan_name)[1])
+
+                        # Break out of the loop once the file has been extracted
+                        break
+
                 # Extract the ComicInfo.xml file from the archive
                 xml_data = cbz_file.read("ComicInfo.xml")
 
@@ -81,3 +94,4 @@ for r, d, f in os.walk(script_dir):
 
             # Print a success message
             print(f"Formatted data saved to {file}")
+            print(f"Poster image extracted to { os.path.splitext(file)[0] + '-poster' + os.path.splitext(scan_name)[1]}")
