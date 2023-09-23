@@ -5,3 +5,5 @@ This python script loops through all your .cbz files in the same directory and r
 Only .cbz files are supported.
 
 It will open and extract the file structure of your .cbz files, look for a ComicInfo.xml and open it, then it reads the `<Summary>` tag, wraps the content in a `<![CDATA[]]>` tag and reformats all `\n` (newlines) to `<br />` tags and save the file.
+
+It will also extract the first image of the archive and rename it, adding -poster to the filename, so that Jellyfin auto-adds poster images.
